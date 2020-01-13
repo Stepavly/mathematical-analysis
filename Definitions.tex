@@ -7,6 +7,7 @@
 \usepackage{xcolor}
 \usepackage{amsthm}
 \usepackage{hyperref}
+\usepackage{graphicx}
 \usepackage{amssymb}
 \usepackage{showkeys}
 \newtheorem*{theorem*}{Теорема}
@@ -287,6 +288,16 @@ $$
 $$ $\blacksquare$
 \end{theorem*}
 
+\begin{theorem*}[Ограниченность сходящейся последовательности]
+Сходящаяся последовательность ограничена
+
+Пусть $x_n \rightarrow a$. Взяв $\varepsilon = 1$, подберём такой номер $N$, что для всех номеров $n > N$ будет $\rho(x_n, a) < 1$. Положим
+$$
+R = \max\{\rho(x_1, a), \ldots, \rho(x_N, a), 1\}
+$$
+Тогда $\rho(x_n, a) \leq R$ при всех $n \in \mathbb{N}$. $\blacksquare$
+\end{theorem*}
+
 \begin{center}
 Билет 11
 \end{center}
@@ -328,9 +339,265 @@ $$
 \item $\lambda_n y_n \rightarrow \lambda_0 y_0$
 \item $x_n - y_n \rightarrow x_0 - y_0$
 \item $||x_n|| \rightarrow ||x_0||$
+\end{enumerate}
 
-TODO: Доказательства
+\begin{enumerate}
+\item Возьмём $\varepsilon > 0$. По определению предела найдутся такие $N_1$ и $N_2$, что $||x_n - x_0|| < \frac{\varepsilon}{2}$ для всех $n>N_1$ и $||y_n - y_0|| < \frac{\varepsilon}{2}$ для всех $n>N_2$. Положим $N=\max\{N_1, N_2\}$. Тогда при всех $n > N$ будет
+$$
+|| (x_n + y_n) - (x_0 + y_0) || < || x_n - x_0 || + || y_n - y_0 || < \frac{\varepsilon}{2} + \frac{\varepsilon}{2} = \varepsilon
+$$
+
+\item По неравенству треугольника 
+$$
+|| \lambda_n x_n - \lambda_0 x_0 || = || (\lambda_n - \lambda_0) x_n + \lambda_0 (x_n - x_0) || \leq
+$$
+$$
+\leq |\lambda_n - \lambda_0| || x_n || + |\lambda_0|	||x_n - x_0||
+$$
+По условию последовательности $\{|\lambda_n - \lambda_0|\}$, $\{|x_n - x_0|\}$ бесконечно малые, а по теореме 10.2 последовательность $\{||x_n||\}$ ограничена, как и постоянная последовательность $\{|\lambda_0|\}$. Следовательно по лемме "Произведение бесконечно малой последовательности на ограниченную есть бесконечно малая" оба слагаемых в правой части бесконечно малые, а тогда по утверждению 1 их сумма бесконечно малая. Наконец, $||\lambda_n x_n - \lambda_0 x_0||\rightarrow 0$ по теореме 11.1.
+
+\item Доказывается аналогично утверждению 1 или применением уже доказанных утверждений 1 и 2:
+$$
+x_n - y_n = x_n + (-1) y_n \rightarrow x_0 + (-1) y_0 = x_0 - y_0
+$$
+
+\item Утверждение следует из неравенства
+$$
+\big\vert \Vert x_n \Vert - \Vert x_0 \Vert \big\vert \leq \Vert x_n - x_0 \Vert
+$$
+(леммы про свойства полунорм) и теоремы 11.1.
+\end{enumerate}
+$\blacksquare$
+\end{theorem*}
+
+\begin{center}
+Билет 13
+\end{center}
+
+Пусть $X$ --- векторное пространство над $\mathbb{R}$ или $\mathbb{C}$. Функция $\phi: X \times X \rightarrow \mathbb{R} (\mathbb{C})$ называется скалярным произведением в $X$ (обозначение: $\phi(x, y) = (x, y)$), если она удовлетворяет следующим аксиомам:
+\begin{enumerate}
+\item Линейность по первому аргументу
+$$
+(\lambda x_1 + \mu x_2, y) = \lambda (x_1, y) + \mu (x_2, y)
+$$
+
+\item Эрмитовская симметричность
+$$
+(y, x) = \overline{(x, y)}
+$$
+
+\item Положительная определённость
+$$
+(x, y) \geq 0; (x, x) = 0 \Leftrightarrow x=\theta
+$$
+\end{enumerate}
+
+Свойства скалярного произведения:
+\begin{enumerate}
+\item $(x, y_1 + y_2) = (x, y_1) + (x, y_2)$
+\item $(x, \lambda y) = \overline{\lambda} (x, y)$
+\item $(\theta, y) = (x, \theta) = 0$
+\end{enumerate}
+
+\begin{theorem*}{Неравенство Коши-Буняковского-Шварца}
+\label{13.1}
+$$
+{|(x, y)|}^2 \leq (x, x) (y, y)
+$$
+
+Пусть $(y, y) > 0$ (в противном случае $y=\theta$ и неравенство выполнено), положим
+$$
+\lambda = -\frac{(x, y)}{(y, y)}
+$$
+Тогда в силу аксиом скалярного произведения и равенства $\lambda \overline{\lambda} = {|\lambda|}^2$
+\begin{align*}
+(x + \lambda y, x + \lambda y) &= (x, x) + \overline{\lambda} (x, y) + \lambda (y, x) + {|\lambda|}^2 (y, y) = \\
+&=(x,x) -  \frac{{|(x, y)|}^2}{(y, y)}-\frac{{|(x, y)|}^2}{(y, y)}+\frac{{|(x, y)|}^2}{(y, y)}
+\end{align*}
+Таким образом,
+$$
+(x, x) (y, y) - {|(x, y)|}^2 = (y, y) (x + \lambda y, x+\lambda y) \geq 0
+$$
+$\blacksquare$
+\end{theorem*}
+
+\begin{lemma*}[Это не лемма, просто хз как обозвать]
+\label{13.2}
+Функция $\rho(x) = \sqrt{(x, x)}$ --- норма в $X$.
+
+Положительная определённость $\rho$ следует из положительной определённости скалярного произведения. Далее,
+$$
+\rho(\lambda x) = \sqrt{(\lambda x, \lambda x)} = \sqrt{\lambda \overline{\lambda} (x, x)} = |\lambda| \rho(x)
+$$
+Докажем неравенство треугольника. Применяя 13.1, имеем
+\begin{align*}
+{\rho}^2 (x+y) &=(x+y, x+y) = (x, x) + (x, y) + (y, x) + (y, y) = \\
+&=(x, x) + 2Re(x, y) + (y, y) \leq (x,x) + 2|(x, y)| + (y, y) \leq  \\
+&\leq {\rho}^2 (x) + 2\rho(x)\rho(y) + {\rho}^2(y) = {(\rho(x)+\rho(y))}^2 \ \blacksquare
+\end{align*}
+\end{lemma*}
+
+\begin{center}
+Билет 14
+\end{center}
+
+\begin{conseq*}(КБШ в $\mathbb{R}^m$ и $\mathbb{C}^m$)
+\label{14.1}
+\begin{enumerate}
+\item Скалярное произведение в $\mathbb{R}^m$:
+$$
+(x, y) = \sum\limits_{k=1}^{m} x_k y_k
+$$
+
+\item Скалярное произведение в $\mathbb{C}^m$:
+$$
+(z, w) = \sum\limits_{k=1}^{m} z_k \overline{w_k}
+$$
+
+$\blacksquare$
+\end{enumerate}
+\end{conseq*}
+
+Далее запись $x_{i}^{(j)}$ подразумевает, что $i$ --- номер координаты, $j$ --- номер последовательности.
+
+Говорят, что последовательность $\{ x^{(n)} \}$ точек $\mathbb{R}^m$  сходится к пределу $x^{(0)} \in \mathbb{R}^m$ покоординатно, если $x_{j}^{(n)} \xrightarrow[n\rightarrow \infty]{} x_{j}^{(0)}$, для всех $j \in [1:m]$.
+
+\begin{lemma*}
+\label{14.2}
+В $\mathbb{R}^m$ покоординатная сходимость и сходимость по Евклидовой норме равносильны.
+
+Утверждение следует из неравенств
+\begin{align*}
+|x_{j}^{(n)} - x_{j}^{(0)}| \leq & |x^{(n)} - x^{(0)}| = \\
+= & \sqrt{\sum\limits_{k=1}^{m} {(x_{k}^{(n)} - x_{k}^{(0)})}^2} \leq \sqrt{m} \max\limits_{1\leq k \leq m} {|x_{k}^{(n)}-x_{k}^{(0)}|}
+\end{align*}
+и теоремы 11.1. $\blacksquare$
+\end{lemma*}
+
+\begin{center}
+Билет 15
+\end{center}
+
+Говорят, что вещественная последовательность $\{x_n\}$ стремится к:
+\begin{enumerate}
+\item плюс бесконечности, если 
+$$
+\forall E>0\ \exists N \in \mathbb{N}\ \forall n \in \mathbb{N}: n > N\ x_n > E
+$$
+\item минус бесконечности ($x_n < -E$)
+\item бесконечности (бесконечности неопределённого знака) ($|x_n| > E$)
+\end{enumerate}
+
+Последовательность, стремящаяся к бесконечности называется бесконечно большой.
+
+\begin{theorem*}[Арифметические действия над бесконечно большими]
+\label{15.1}
+Пусть $\{x_n\}$, $\{y_n\}$ --- числовые последовательности
+\begin{enumerate}
+\item Если $x_n\rightarrow +\infty$, $\{y_n\}$ ограничена снизу, то $x_n+y_n\rightarrow +\infty$
+
+\item Если $x_n\rightarrow -\infty$, $\{y_n\}$ ограничена сверху, то $x_n+y_n\rightarrow -\infty$
+
+\item Если $x_n\rightarrow \infty$, $\{y_n\}$ ограничена, то $x_n+y_n\rightarrow \infty$
+
+\item Если $x_n\rightarrow \pm\infty$, $y_n \geq b > 0$ для всех $n$ (или $y_n \rightarrow b_1 > 0$), то $x_n y_n \rightarrow \pm\infty$
+
+\item Если $x_n\rightarrow \pm\infty$, $y_n \leq b < 0$ для всех $n$ (или $y_n \rightarrow b_1 < 0$), то $x_n y_n \rightarrow \mp\infty$
+
+\item Если $x_n\rightarrow \infty$, $|y_n| \geq b > 0$ для всех $n$ (или $y_n \rightarrow b_1 \ne 0$), то $x_n y_n \rightarrow \infty$
+
+\item Если $x_n \rightarrow a \ne 0$, $y_n \rightarrow 0$, $y_n \ne 0$ при всех $n$, то $\frac{x_n}{y_n} \rightarrow \infty$
+
+\item Если $x_n \rightarrow a \in \mathbb{C}$, $y_n \rightarrow \infty$, то $\frac{x_n}{y_n} \rightarrow 0$
+
+\item Если $x_n \rightarrow \infty$, $y_n \rightarrow b \in \mathbb{C}$, $y_n \ne 0$ при всех $n$, то $\frac{x_n}{y_n} \rightarrow \infty$
+\end{enumerate}
+
+Почти всё очевидно, докажем 8 пункт для наглядности.
+
+По теореме о пределе произведения и лемме ``Последовательность бесконечно большая, когда обратная ей бесконечно малая`` получаем, что
+$$
+\frac{x_n}{y_n} = x_n \cdot \frac{1}{y_n} \rightarrow a \cdot 0 = 0 \blacksquare
+$$
+\end{theorem*}
+
+\begin{center}
+Знак извилистой дороги
+\end{center}
+
+Точка $a$ называется внутренней точкой множества $D$, если существует окрестность точки $a$, содержащаяся в $D$.
+
+Множество $D$ называется открытым, если все его точки внутренние.
+
+Множество $D$ называется замкнутым в $X$, если оно содержит все свои предельные точки.
+
+Подмножество $K$ метрического пространства $X$ называется компактным, если из любого открытого покрытия $К$ можно извлечь конечное подпокрытие:
+$$
+\forall \{G_a\}_{a\in A}: K \subset \bigcup\limits_{a\in A} G_a, G_a \text{ открыты в } X
+$$
+
+\begin{center}
+Билет 16
+\end{center}
+
+\begin{theorem*}[Свойства открытых множеств]
+\label{16.1}
+\ %это надо для красивого отступа 
+\begin{enumerate}
+\item Объединение любого семейства открытых множеств открыто. 
+
+Пусть задано семейство открытых множеств $\{G_a\}_{a \in A}$, $G = \bigcup\limits_{a\in A}{G_a}$, $x \in G$. Докажем, что $x$ --- внутренняя точка $G$. В самом деле, по определению объединения найдётся такой индекс $a$, что $x \in G_a$. Так как $G_a$ открыто, $x$ --- внутренняя точка этого шара, значит существует шар $B(x, r)$, содержащийся в $G_a$. Но тогда тем более $B(x, r) \subset G$.
+
+\item Пересечение конечного семейства открытых множеств открыто. 
+
+Пусть задано конечное семейство открытых множеств $\{G_k\}_{k=1}^{n}$, $G = \bigcap\limits_{k=1}^{n} G_k$, $x \in G$. Тогда $x$ принадлежит каждому из множеств, и в силу открытости $G_k$ найдутся такие положительные числа $r_1, \ldots, r_n$, что $B(x, r_k) \in G_k$ при всех $k \in [1: n]$. Обозначим $r=\min\{r_1, \ldots, r_n\}$, тогда $B(x, r) \in G_k$ для всех $k$. Следовательно по определению пересечения $B(x, r) \in G$. $\blacksquare$
 \end{enumerate}
 \end{theorem*}
+
+\begin{lemma*}[Открытый шар открыт]
+\label{16.2}
+Покажем, что шар $B(a, r)$ открыт. Пусть $p \in B(a, r)$, то есть $\rho(p, a) < r$.
+\begin{center}
+\includegraphics[scale=0.7]{openCircle.jpg}
+\end{center}
+Докажем, что $p$ --- внутренняя точка шара. Положим $h = r - \rho(p, a)$ ($h > 0$) и проверим, что $B(p, h) \subset B(a, r)$. Пусть $x \in B(p, h)$, то есть $\rho(x, p) < h$. Тогда
+$$
+\rho(x, a) \leq \rho(x, p) + \rho(p, a) < h + r - h = r
+$$
+То есть $x \in B(a, r)$. $\blacksquare$
+\end{lemma*}
+
+Множество всех внутренних точек множества $D$ называется внутренностью $D$ и обозначается $\stackrel{\circ}{D}$ или $Int\ D$.
+
+\begin{center}
+Билет 17
+\end{center}
+
+Точка $a$ называется предельной точкой множества $D$, если в любой окрестности точки $a$ найдётся точка $D$, отличная от $a$. Другими словами, если $\stackrel{.}{V_a} \cap D \ne \emptyset$.
+
+\begin{theorem*}[Связь открытости и замкнутости]
+\label{17.1}
+Множество открыто тогда и только тогда, когда его дополнение замкнуто
+
+Пусть $D^c$ замкнуто. Возьмём точку $x \in D$ и докажем, что $х$ --- внутренняя точка $D$; в силу произвольности $x$ это и будет означать, что $D$ открыто. Поскольку $x \not\in D^c$, а $D^c$ замкнуто, $x$ не является предельной точкой $D^c$, то есть существует такая окрестность $V_x$ точки $х$, что $\stackrel{\cdot}{V_x} \cap D = \emptyset$. Тогда и $V_x \cap D^c = \emptyset$, так как $x \in D$. Но это означает, что $V_x \subset D$, то есть $x$ --- внутренняя точка $D$.
+
+Пусть $D$ открыто. Возьмём точку $x$, предельную для $D^c$, и докажем, что $x \in D^c$; в силу произвольности $x$ это и будет означать, что $D^c$ замкнуто. Поскольку в любой окрестности точки $x$ найдётся точка $D^c$, $x$ не является внутренней точкой $D$, а тогда, в силу открытости $D$, $x \not\in D$, то есть $x \in D^C$. $\blacksquare$
+\end{theorem*}
+
+\begin{theorem*}[Свойства замкнутых множеств]
+\label{17.2}
+\ 
+\begin{enumerate}
+\item Пересечение любого семейства замкнутых множеств замкнуто.
+\item Объединение конечного семейства замкнутых множеств замкнуто.
+\end{enumerate}
+
+Доказательство следует из 17.1 и этих формул.
+$$
+\bigcap\limits_{a\in A}{F_a} = {\left( \bigcup\limits_{a\in A}{F_{a}^{c} }\right)}^{c}, \bigcup\limits_{k=1}^{n}{F_a} = {\left( \bigcap\limits_{k=1}^{n}{F_{a}^{c} }\right)}^{c} \blacksquare
+$$
+\end{theorem*}
+
+Замыкание $D$ есть множество всех точек прикосновения. Обозначается $\overline{D}$ или $Cl\ D$.
 
 \end{document}
